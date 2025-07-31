@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MySQL Read-Only IDE</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.15/lib/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.15/theme/monokai.min.css">
+  <style>
+    body {
+      background: #1e1e1e;
+      color: #ccc;
+      font-family: Consolas, monospace;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #00e676;
+    }
+
+    .CodeMirror {
+      height: auto;
+      border: 1px solid #444;
+      font-size: 14px;
+    }
+
+    button {
+      margin-top: 10px;
+      background-color: #00e676;
+      color: #000;
+      border: none;
+      padding: 8px 16px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #result, #log {
+      background: #111;
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #444;
+      padding: 6px;
+      text-align: left;
+    }
+
+    th {
+      background: #333;
+      color: #00e676;
+    }
+
+    .error {
+      color: #ff5252;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>💻 MySQL Read-Only IDE</h2>
+
+  <textarea id="query">SELECT * FROM your_table LIMIT 10;</textarea>
+  <br>
+  <button onclick="runQuery()">▶ Run Query</button>
+
+  <div id="log"></div>
+  <div id="result"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.15/lib/codemirror.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.15/mode/sql/sql.min.js"></script>
+  <script>
+    const editor = CodeMirror.fromTextArea(document.getElementById('query'), {
+      mode: 'text/x-sql',
+      theme: 'monokai',
+      lineNumbers: true,
+      indentWithTabs: true,
+      smartIndent: true,
+      matchBrackets: true
+    });
+
+    async function runQuery() {
+      const query = editor.getValue();
+      document.getElementById("log").innerHTML = "⏳ Executing query...";
+      document.getElementById("result").innerHTML = "";
+
+      const startTime = Date.now();
+
+      const res = await fetch("query.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "query=" + encodeURIComponent(query)
+      });
+
+      const html = await res.text();
+      const timeTaken = (Date.now() - startTime) / 1000;
+
+      document.getElementById("log").innerHTML = `✅ Query completed in ${timeTaken}s`;
+      document.getElementById("result").innerHTML = html;
+    }
+  </script>
+
+</body>
+</html>
