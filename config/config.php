@@ -13,6 +13,10 @@ try {
 
     function loadEnv($filePath = __DIR__ . '/env.ini')
     {
+        // get current environment
+        // You need to create an env.ini file for each environment
+        // Example: env.ini
+                
         $section = getCurrentEnvSection();
         $env = parse_ini_file($filePath, true);
         if (!isset($env[$section])) {
