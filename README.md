@@ -146,3 +146,24 @@ SOFTWARE.
 - [Full license text](ranavattra.com) available in project repository
 
 For alternative licenses, please contact the author.
+
+## 🖼️ Screenshots
+
+### Project
+![Dashboard View](assets/img/project.png "The Whole Project")
+
+### Tools
+<p align="center">
+  <img src="assets/img/project.png" width="700" alt="The Tool Project">
+  <br>
+  <em>Example query results with pagination</em>
+</p>
+
+### Query
+[![Mobile Version](assets/img/tool.png "Result")
+### Query Results
+<p align="center">
+  <img src="assets/img/tools.png" width="700" alt="Query Results">
+  <br>
+  <em>Example query results with pagination</em>
+</p>
